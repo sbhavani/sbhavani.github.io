@@ -1,0 +1,18 @@
+{
+    "patientName" : "John N. Harrison",
+    "patientId" : "5490",
+    "studyDate" : "20140811",
+    "modality" : "US",
+    "studyDescription" :"US Fat Grafting Procedure",
+    "numImages" : 1,
+    "studyId" : "usfat_graft_normal",
+    "seriesList" : [
+        {
+            "seriesDescription": "Normal tissue",
+            "seriesNumber" : "28858",
+            "instanceList" : [
+                {"imageId" : "http://data.semantic.md/demo_images/examples/stemcells/normal13.jpg"}
+            ]
+        }
+    ]
+}

@@ -1,4 +1,124 @@
-<frameset cols="300,*" >
-<frame src="viewer.html" name="viewer" >
-<frame src="https://talkmd.herokuapp.com/docresponse" name="chat" >
-</frameset>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JS annotation test</title>
+
+    <!-- Annotator -->
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="js/annotator-full.min.js"></script>
+    <link rel="stylesheet" href="css/annotator.min.css">
+
+    <!--video-js-->
+    <link href="http://vjs.zencdn.net/4.2/video-js.css" rel="stylesheet">
+    <script src="js/video.min.js"></script>
+
+    <!--RangeSlider Pluging-->
+    <script src="js/rangeslider.min.js"></script>
+    <link href="css/rangeslider.min.css" rel="stylesheet">
+
+    <!--Share Pluging-->
+    <script src="js/share-annotator.min.js"></script>
+    <link href="css/share-annotator.min.css" rel="stylesheet">
+
+    <!--Geolocation Pluging-->
+    <script src="js/geolocation-annotator.min.js"></script>
+    <link href="css/geolocation-annotator.min.css" rel="stylesheet">
+
+    <!--RichText Pluging-->
+    <script src="js/tinymce.min.js"></script>
+    <!--tinymce for richText-->
+    <script src="js/richText-annotator.min.js"></script>
+    <link href="css/richText-annotator.min.css" rel="stylesheet">
+
+    <!--OpenVideoAnnotations Pluging-->
+    <script src="js/ova.min.js"></script>
+    <link href="css/ova.min.css" rel="stylesheet">
+
+    <!--Demo CSS-->
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+
+<body style="margin:10px">
+<header>
+    <h1>Clinical Video Annotation Platform</h1>
+</header>
+
+<div id="controls">
+    <h3>Controls</h3>
+
+    <p>
+        <input id="username" value="Dr. Ricardo Rodriguez">
+    </p>
+</div>
+
+<div id="airlock">
+    <video id="vid1" class="video-js vjs-default-skin" controls preload="none" width="640" height="264"
+           poster="assets/img/ultrasound_cover.png"
+           data-setup=''>
+        <source src="assets/mp4/injection%20good%20clip.mp4" type='video/mp4'/>
+        <track kind="captions" src="assets/captions/demo.captions.vtt" srclang="en" label="English">
+
+        </track><!-- Tracks need an ending tag thanks to IE9 -->
+    </video>
+</div>
+
+<script>
+    //Options to load in Open Video Annotation, for all the plugins
+    var options = {
+        optionsAnnotator: {
+            permissions: { },
+
+            //auth: {tokenUrl:'http://catch.aws.af.cm/annotator/token'},
+
+            store: {
+                // The endpoint of the store on your server.
+                //prefix: 'http://afstore.aws.af.cm/annotator',
+                prefix: 'http://danielcebrian.com/annotations/api',
+
+                annotationData: {uri: 'http://danielcebrian.com/annotations/demo.html'},
+
+                /*urls: {
+                 // These are the default URLs.
+                 create:  '/create',
+                 read:    '/read/:id',
+                 update:  '/update/:id',
+                 destroy: '/destroy/:id',
+                 search:  '/search'
+                 },*/
+
+                loadFromSearch: {
+                    limit: 10000,
+                    uri: 'http://danielcebrian.com/annotations/demo.html'
+                }
+            },
+            richText: {
+                tinymce: {
+                    selector: "li.annotator-item textarea",
+                    plugins: "media image insertdatetime link code",
+                    menubar: false,
+                    toolbar_items_size: 'small',
+                    extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
+                    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media rubric | code "
+                }
+            },
+            share: {}, //Share plugin
+            annotator: {} //Annotator core
+        },
+        optionsVideoJS: {techOrder: ["html5", "flash", "youtube"]},
+        optionsRS: {},
+        optionsOVA: {posBigNew: 'none'/*,NumAnnotations:20*/}
+    };
+    //Load the plugin Open Video Annotation
+    var ova = new OpenVideoAnnotation.Annotator($('#airlock'), options);
+
+    //change the user (Experimental)
+    ova.setCurrentUser($('#username').val());
+    $('#username').change(function () {
+        ova.setCurrentUser($(this).val());
+    });
+</script>
+</body>
+
+
+</html>
